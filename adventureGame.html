@@ -1,0 +1,131 @@
+<!doctype html>
+<title>Hogwarts</title>
+<head>
+    
+    <style>
+            
+            
+    </style>
+    
+</head>
+
+<body>
+    <img src="" width="400" height="267">
+    <p id="output"></p>
+    <input id="input" type="text" placeholder="Enter your action...">
+    <button>Enter</button>
+    
+    <script>
+        
+        // Put images at corresponding location    
+        var images = [];
+        images[0] = "hall.jpg";
+        images[1] = "common.jpg";
+        images[2] = "chamber.png";
+        images[3] = "office.jpg";
+        images[4] = "requirement.png";
+        images[5] = "library.png";
+
+        images[mapLocation];
+        var image = document.querySelector("img");
+        
+        // Create the map
+        var hogwarts = [];
+        
+        hogwarts[0] = "The Great Hall.";
+        hogwarts[1] = "Gryffindor Common Room.";
+        hogwarts[2] = "The Chamber of Secrets.";
+        hogwarts[3] = "Dumbledore's Office.";
+        hogwarts[4] = "The Room of Requirement.";
+        hogwarts[5] = "The Library.";
+        
+        // Set player's start location
+        var mapLocation = 1;
+        
+        // Initialize player's input
+        var playersInput = "";
+        
+        // Initilaze the gameMessage
+        var gameMessage = "";
+        
+        // Create an array of actions the game understands
+        // Create a variable to store the current action
+        var actionsIKnow = ["north", "east", "south", "west"];
+        var action = "";
+        
+        // The output and input fields
+        var output = document.querySelector("#output");
+        var input = document.querySelector("#input");
+        
+        // The button
+        var button = document.querySelector("button");
+        button.style.cursor = "pointer";
+        button.addEventListener("click", clickHandler, false);
+        
+        // Display the player's location
+        render();
+        
+        function clickHandler()
+        {
+            playGame();
+        }
+        
+        function playGame()
+        {
+            // Get the player's input and convert it to lowercase
+            playersInput = input.value;
+            playersInput = playersInput.toLowerCase();
+
+            // Reset these variables from the previous turn
+            gameMessage = "";
+            action = "";
+
+            // Figure out the player's action
+            for(i = 0; i < actionsIKnow.length; i++)
+            {
+                if(playersInput.indexOf(actionsIKnow[i]) !== -1)
+                {
+                action = actionsIKnow[i];
+                console.log("player's action: " + action);
+                break;
+                }
+            }
+            // Choose the correct action
+            switch(action)
+            {
+                case "north":
+                mapLocation -= 3;
+                break;
+
+                case "east":
+                mapLocation += 1;
+                break;
+
+                case "south":
+                mapLocation += 3;
+                break;
+
+                case "west":
+                mapLocation -= 1;
+                break;
+
+                default:
+                gameMessage = "I don't understand that.";
+            }
+
+            // Render the game
+            render();
+        }
+
+        function render()
+        {
+        // Render the location
+        output.innerHTML = hogwarts[mapLocation];
+            image.src = "./images/" + images[mapLocation];
+
+        // Display the game message
+        output.innerHTML += "<br><em>" + gameMessage + "</em>";
+        }
+
+    </script>
+</body>
