@@ -3,7 +3,7 @@
 Welcome to Hogwarts! The mission of this game is to navigate through the rooms of Hogwarts and defeat the basilisk!
 The map looks like this:
 
-[0] The Great Hall --> [1] The Gryffindor Common Room --> [2] The Chamber of Secrets ------------------->
+[0] The Great Hall --> [1] The Gryffindor Common Room --> [2] The Chamber of Secrets ------------------------------------->
 [3] Dumbledore's Office --> [4] The Room of Requirement --> [5] Moaning Myrtle's Bathroom
 
 There are three items in the game: a wand, tom riddle's diary, and the sword of gryffindor.
