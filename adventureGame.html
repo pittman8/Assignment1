@@ -10,10 +10,15 @@
 </head>
 
 <body>
-    <img src="" width="400" height="267">
+    <img src="" width="600" height="400">
     <p id="output"></p>
     <input id="input" type="text" placeholder="Enter your action...">
     <button>Enter</button>
+    <br /> <br />
+    <form>
+        <div><input id = "saveButton" type="button" value="Save"></div>
+        <div><input id = "restoreButton" type = "button" value="Restore From Last Save"></div>
+    </form>
     
     <script>
         
@@ -24,7 +29,7 @@
         images[2] = "chamber.png";
         images[3] = "office.jpg";
         images[4] = "requirement.png";
-        images[5] = "library.png";
+        images[5] = "bathroom.png";
 
         images[mapLocation];
         var image = document.querySelector("img");
@@ -34,12 +39,21 @@
         
         hogwarts[0] = "The Great Hall.";
         hogwarts[1] = "Gryffindor Common Room.";
-        hogwarts[2] = "The Chamber of Secrets.";
+        hogwarts[2] = "The Chamber of Secrets. <br> A basilisk appears!";
         hogwarts[3] = "Dumbledore's Office.";
         hogwarts[4] = "The Room of Requirement.";
-        hogwarts[5] = "The Library.";
+        hogwarts[5] = "Moaning Myrtle's Bathroom.";
         
-        // Set player's start location
+        // Array to set boundaries on the game
+        var blockedPathMessages = [];
+        blockedPathMessages[0] = "It's not safe outside.";
+        blockedPathMessages[1] = "There's something dangerous blocking the door!";
+        blockedPathMessages[2] = "The basilisk is blocking your path!";
+        blockedPathMessages[3] = "You must get Dumbledore's permission to go that way..";
+        blockedPathMessages[4] = "You forgot where the door was, didn't you?";
+        blockedPathMessages[5] = "Myrtle won't let you go that way.";
+        
+        // Set player's start location (Gryffindor Common Room)
         var mapLocation = 1;
         
         // Initialize player's input
@@ -50,8 +64,20 @@
         
         // Create an array of actions the game understands
         // Create a variable to store the current action
-        var actionsIKnow = ["north", "east", "south", "west"];
+        var actionsIKnow = ["north", "east", "south", "west", "take", "use"];
         var action = "";
+        
+        // Items to be picked up
+        var items = ["a wand", "tom riddle's diary"];
+        // Item start locations
+        var itemLocations = [0, 5];
+        // Items the player is holding
+        var heldItems = [];
+        
+        // Items the player can pick up
+        // Create variable to track current item 
+        var itemsIKnow = ["a wand", "tom riddle's diary", "the sword of gryffindor"];
+        var item = "";
         
         // The output and input fields
         var output = document.querySelector("#output");
@@ -75,6 +101,10 @@
             // Get the player's input and convert it to lowercase
             playersInput = input.value;
             playersInput = playersInput.toLowerCase();
+            
+            // Call restoreGameState
+            
+            // or call saveGameState
 
             // Reset these variables from the previous turn
             gameMessage = "";
@@ -85,47 +115,220 @@
             {
                 if(playersInput.indexOf(actionsIKnow[i]) !== -1)
                 {
-                action = actionsIKnow[i];
-                console.log("player's action: " + action);
-                break;
+                    action = actionsIKnow[i];
+                    console.log("player's action: " + action);
+                    break;
+                }
+            
+            }
+            
+            // Find item player is interacting with
+            for (i = 0; i < itemsIKnow.length; i++)
+            {
+                if(playersInput.indexOf(itemsIKnow[i]) !== -1)
+                {
+                    item = itemsIKnow[i];
+                    console.log("player's item: " + item);
                 }
             }
-            // Choose the correct action
+            
+            // Choose the correct action, checks boundaries of the map
+            // Takes item if there is one at the location the player is at
             switch(action)
             {
                 case "north":
-                mapLocation -= 3;
-                break;
+                    if (mapLocation >= 3)
+                    {
+                        mapLocation -= 3;
+                    }
+                    else // can't move north
+                    {
+                        gameMessage = blockedPathMessages[mapLocation];
+                    }
+                    break;
 
                 case "east":
-                mapLocation += 1;
-                break;
+                    if(mapLocation % 3 != 2)
+                    {
+                        mapLocation += 1;
+                    }
+                    else // can't move east
+                    {
+                        gameMessage = blockedPathMessages[mapLocation];    
+                    }
+                    break;
 
                 case "south":
-                mapLocation += 3;
-                break;
+                    if(mapLocation < 3)
+                    {
+                       mapLocation += 3;
+                    }
+                    else // can't move south
+                    {
+                        gameMessage = blockedPathMessages[mapLocation];
+                    }
+                    break;
 
                 case "west":
-                mapLocation -= 1;
-                break;
+                    if(mapLocation % 3 != 0)
+                    {
+                        mapLocation -= 1;
+                    }
+                    else // can't move west
+                    {
+                        gameMessage = blockedPathMessages[mapLocation];
+                    }
+                    break;
+                    
+                case "take":
+                    takeItem();
+                    break;
+
+                case "use":
+                    useItem();
+                    break;
 
                 default:
-                gameMessage = "I don't understand that.";
+                    gameMessage = "I don't understand that.";
             }
 
             // Render the game
             render();
         }
-
+    
+        function takeItem() 
+        {
+            // Find index of number of items in array
+            var itemIndexNumber = items.indexOf(item);
+            
+            // Does item exist and is it at the location?
+            if(itemIndexNumber !== -1 && itemLocations[itemIndexNumber] === mapLocation)
+            {
+                gameMessage = "Taking " + item + ".";
+                
+                // Add hint of how to win the game 
+                if (item == "tom riddle's diary") 
+                {
+                    gameMessage += " This diary came from the Chamber of Secrets! You'll probably need a sword down there."
+                }
+                
+                // Add item to heldItems
+                heldItems.push(item);
+                
+                // Remove item from game
+                items.splice(itemIndexNumber, 1);
+                itemLocations.splice(itemIndexNumber, 1);
+            }
+            else
+            {
+                // Tell player that the item is not in their current location 
+                gameMessage = "That item is not here!";
+            }
+        }
+        
+        function useItem()
+        {
+            // Find out if player has the item
+            // Find out item's array index number
+            var bagIndexNumber = heldItems.indexOf(item);
+            
+            // Let the player know if they are not holding the   item they want to use
+            if(bagIndexNumber === -1) 
+            {
+                gameMessage = "You're not carrying that.";
+            }
+            
+            // Let the player know if they are not holding any items
+            if(heldItems.length === 0)
+            {
+                gameMessage += "You don't have anything";
+            }
+            
+            // If the item is being held, do or don't do something with it
+            if(heldItems !== -1)
+            {
+                switch(item)
+                {
+                    case "a wand":
+                        if(mapLocation === 3) {
+                            gameMessage = "You killed Dumbledore with your wand! You lose!";
+                            
+                            // Remove item from player's bag
+                            heldItems.splice(bagIndexNumber, 1);
+                        }
+                        else if(mapLocation === 4)
+                        { 
+                            // Bring sword into the game
+                            gameMessage = "You unlocked the secret opening containing the Sword of Gryffindor!";
+                            items.push("the sword of gryffindor");
+                            itemLocations.push(mapLocation);
+                            
+                            
+                        }
+                        else
+                        {
+                            gameMessage = "You could poke an eye out swinging that around.";
+                        }
+                        break;
+                        
+                    case "tom riddle's diary":
+                        if(mapLocation === 5 ) {
+                            gameMessage = "You tried to flush Tom's diary down the toilet..";
+                            
+                            // Remove item from player's bag
+                            heldItems.splice(bagIndexNumber, 1);
+                        }
+                        else
+                        {
+                            gameMessage = "People are giving you strange looks for holding up an old book.";    
+                        }
+                        break;
+                        
+                    case "the sword of gryffindor":
+                        if(mapLocation === 2) {
+                            gameMessage = "You killed the basilisk! You WIN!";
+                        }
+                        else
+                        {
+                            gameMessage = "You scared everyone around you for swinging that sword."
+                        }
+                        break;
+                    }
+            }   
+        }
+        
         function render()
         {
-        // Render the location
-        output.innerHTML = hogwarts[mapLocation];
+            // Render the location
+            output.innerHTML = hogwarts[mapLocation];
             image.src = "./images/" + images[mapLocation];
-
-        // Display the game message
-        output.innerHTML += "<br><em>" + gameMessage + "</em>";
+            
+            // Display an item if there is one at this location
+            // Loop through all game items
+            for(var i = 0; i < items.length; i++)
+            {
+                // Is an item at this location?
+                // If yes, display it
+                if(mapLocation === itemLocations[i])
+                {
+                    output.innerHTML
+                    += "<br>You see <strong>"
+                    + items[i]
+                    + "</strong> here.";
+                }
+            }
+        
+            // Display the game message
+            output.innerHTML += "<br><em>" + gameMessage + "</em>";
+        
+            // Display what items the player has
+            if(heldItems.length !== 0)
+            {
+                output.innerHTML += "<br>You are carrying: " + heldItems.join(", ") ;
+            }
+            
+            // Clear the input field
+            input.value = "";
         }
-
     </script>
 </body>
