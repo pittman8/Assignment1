@@ -14,9 +14,9 @@ Boundaries are set where you cannot leave the edge of the map or error messages 
 
 HOW TO WIN:
 - First find the wand. It is in the Great Hall.
-- Next, go to the Room of Requirement where you must use your wand to find the sword of gryffindor.
+- Next, go to the Room of Requirement where you must use your wand to find and take the sword of gryffindor.
 - Next, go to the Chamber of Secrets, where a basilisk awaits.
-- Use your sword to kill the basilisk and you win!
+- Use the sword to kill the basilisk and you win!
 
 *Tom Riddle's diary is in Moaning Myrtle's bathroom and gives the player a clue for how to defeat the basilisk.
 If you "use" the diary in the bathroom, it is flushed down the toilet and gone forever.
