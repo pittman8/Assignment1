@@ -1,24 +1,20 @@
 <!doctype html>
 <title>Hogwarts</title>
-<head>
-    
-    <style>
-            
-            
-    </style>
-    
-</head>
+<link rel="stylesheet" href="hogwarts.css">
 
-<body>
-    <img src="" width="600" height="400">
+<div id ="stage">
+    <h1><br>Hogwarts Adventure!</h1>
+    <img src="" width="600" height="300">
     <p id="output"></p>
+    <br />
     <input id="input" type="text" placeholder="Enter your action...">
     <button>Enter</button>
     <br /> <br />
     <form>
-        <div><input id = "saveButton" type="button" value="Save"></div>
+        <div><input id = "saveButton" type="button" value="Save Location"></div>
         <div><input id = "restoreButton" type = "button" value="Restore From Last Save"></div>
     </form>
+</div>
     
     <script>
         
@@ -32,7 +28,7 @@
         images[5] = "bathroom.png";
 
         images[mapLocation];
-        var image = document.querySelector("img");
+        var image = document.querySelector("img"); 
         
         // Create the map
         var hogwarts = [];
@@ -60,7 +56,9 @@
         var playersInput = "";
         
         // Initilaze the gameMessage
-        var gameMessage = "";
+        var gameMessage = "<br>Welcome to Hogwarts! "
+        gameMessage += "Try any of these actions throughout the game: " 
+        gameMessage += "<u>north, east, south, west, take, use.</u>";";"
         
         // Create an array of actions the game understands
         // Create a variable to store the current action
@@ -204,12 +202,13 @@
             // Does item exist and is it at the location?
             if(itemIndexNumber !== -1 && itemLocations[itemIndexNumber] === mapLocation)
             {
-                gameMessage = "Taking " + item + ".";
+                gameMessage = "Taking " +"<u>" + item + "</u> .";
                 
                 // Add hint of how to win the game 
                 if (item == "tom riddle's diary") 
                 {
-                    gameMessage += " This diary came from the Chamber of Secrets! You'll probably need a sword down there."
+                    gameMessage += " You open the book and it reads: "
+                    gameMessage += "This diary came from the Chamber of Secrets! You'll probably need a sword down there."
                 }
                 
                 // Add item to heldItems
@@ -231,7 +230,7 @@
             // Find out if player has the item
             // Find out item's array index number
             var bagIndexNumber = heldItems.indexOf(item);
-            
+  
             // Let the player know if they are not holding the   item they want to use
             if(bagIndexNumber === -1) 
             {
@@ -241,16 +240,17 @@
             // Let the player know if they are not holding any items
             if(heldItems.length === 0)
             {
-                gameMessage += "You don't have anything";
+                gameMessage += " You don't have anything.";
             }
-            
+ 
             // If the item is being held, do or don't do something with it
-            if(heldItems !== -1)
+            if(bagIndexNumber !== -1)
             {
                 switch(item)
                 {
                     case "a wand":
-                        if(mapLocation === 3) {
+                        if(mapLocation === 3) 
+                        {
                             gameMessage = "You killed Dumbledore with your wand! You lose!";
                             
                             // Remove item from player's bag
@@ -263,7 +263,8 @@
                             items.push("the sword of gryffindor");
                             itemLocations.push(mapLocation);
                             
-                            
+                            // Remove item from player's bag
+                            heldItems.splice(bagIndexNumber, 1);
                         }
                         else
                         {
@@ -272,8 +273,8 @@
                         break;
                         
                     case "tom riddle's diary":
-                        if(mapLocation === 5 ) {
-                            gameMessage = "You tried to flush Tom's diary down the toilet..";
+                        if(mapLocation === 1) {
+                            gameMessage = "You put the diary nicely away to read later.";
                             
                             // Remove item from player's bag
                             heldItems.splice(bagIndexNumber, 1);
@@ -287,6 +288,9 @@
                     case "the sword of gryffindor":
                         if(mapLocation === 2) {
                             gameMessage = "You killed the basilisk! You WIN!";
+                            
+                            // Remove item from player's bag
+                            heldItems.splice(bagIndexNumber, 1);
                         }
                         else
                         {
@@ -312,23 +316,24 @@
                 if(mapLocation === itemLocations[i])
                 {
                     output.innerHTML
-                    += "<br>You see <strong>"
+                    += "<br>You see <u>"
                     + items[i]
-                    + "</strong> here.";
+                    + "</u> here.";
                 }
             }
         
             // Display the game message
             output.innerHTML += "<br><em>" + gameMessage + "</em>";
-        
+            
             // Display what items the player has
             if(heldItems.length !== 0)
             {
-                output.innerHTML += "<br>You are carrying: " + heldItems.join(", ") ;
+                output.innerHTML += "<br>You are carrying: " + "<u>" + heldItems.join(", ") + "</u>" ;
             }
+            
             
             // Clear the input field
             input.value = "";
+               
         }
-    </script>
-</body>
+</script>
