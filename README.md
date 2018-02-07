@@ -4,8 +4,6 @@ Welcome to Hogwarts! The mission of this game is to navigate through the rooms o
 The map looks like this:
 
 [0] The Great Hall --> [1] The Gryffindor Common Room --> [2] The Chamber of Secrets
-           |                          |                                  |          
-           |                          |                                  |          
 [3] Dumbledore's Office --> [4] The Room of Requirement --> [5] Moaning Myrtle's Bathroom
 
 There are three items in the game: a wand, tom riddle's diary, and the sword of gryffindor.
@@ -14,16 +12,16 @@ You win if you kill the basilisk.
 You start in the Gryffindor Common room.
 Boundaries are set where you cannot leave the edge of the map or error messages appear.
 
---HOW TO WIN:
+HOW TO WIN:
 - First find the wand. It is in the Great Hall.
 - Next, go to the Room of Requirement where you must use your wand to find the sword of gryffindor.
 - Next, go to the Chamber of Secrets, where a basilisk awaits.
 - Use your sword to kill the basilisk and you win!
 
-**Tom Riddle's Diary is in Moaning Myrtle's bathroom that gives the player a clue as to how to defeat the basilisk.
+*Tom Riddle's diary is in Moaning Myrtle's bathroom and gives the player a clue for how to defeat the basilisk.
 If you "use" the diary in the bathroom, it is flushed down the toilet and gone forever.
 
---HOW TO LOSE:
+HOW TO LOSE:
 - Find the wand in the Great Hall.
 - Go to Dumbledore's office and use the wand. He is now dead.
 - You lose because the wand item leaves the game and cannot be used to get the sword any longer.
