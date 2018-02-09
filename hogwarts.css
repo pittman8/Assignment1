@@ -14,8 +14,8 @@
 
 #stage
 {
-    width: 1000px;
-    height: 900px;
+    width: 900px;
+    height: 800px;
     position: relative;
     background-image: url("./images/hogwarts.png");
 }
