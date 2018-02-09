@@ -18,6 +18,8 @@ HOW TO WIN:
 - Next, go to the Chamber of Secrets, where a basilisk awaits.
 - Use the sword to kill the basilisk and you win!
 
+I utilized the template literal feature from Ecmascript 6 in using string interpolation for the introduction game message.
+
 *Tom Riddle's diary is in Moaning Myrtle's bathroom and gives the player a clue for how to defeat the basilisk when it is taken.
 If you "use" the diary in the Gryffindor Common Room, it is put away and leaves the game.
 
