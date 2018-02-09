@@ -9,14 +9,10 @@
     <br />
     <input id="input" type="text" placeholder="Enter your action...">
     <button>Enter</button>
-    <br /> <br />
-    <form>
-        <div><input id = "saveButton" type="button" value="Save Location"></div>
-        <div><input id = "restoreButton" type = "button" value="Restore From Last Save"></div>
-    </form>
+    <br /> <br />    
 </div>
     
-    <script>
+    <script>        
         
         // Put images at corresponding location    
         var images = [];
@@ -55,14 +51,19 @@
         // Initialize player's input
         var playersInput = "";
         
-        // Initilaze the gameMessage
-        var gameMessage = "<br>Welcome to Hogwarts! "
-        gameMessage += "Try any of these actions throughout the game: " 
-        gameMessage += "<u>north, east, south, west, take, use.</u>";";"
+        // Initialize the gameMessage (Uses template literals - string interpolation)
+        var school = { name: "Hogwarts" }
+        var actions = { toDo: "<u>north, east, south, west, take, use, save, restore.</u>" }
+        
+        var gameMessage = `<br>Welcome to ${school.name}! Try any of these actions throughout the game: ${actions.toDo}`;
+        
+        //var gameMessage = "<br>Welcome to Hogwarts! "
+        //gameMessage += "Try any of these actions throughout the game: " 
+        //gameMessage += "<u>north, east, south, west, take, use, save, restore.</u>";";"
         
         // Create an array of actions the game understands
         // Create a variable to store the current action
-        var actionsIKnow = ["north", "east", "south", "west", "take", "use"];
+        var actionsIKnow = ["north", "east", "south", "west", "take", "use", "save", "restore"];
         var action = "";
         
         // Items to be picked up
@@ -89,6 +90,26 @@
         // Display the player's location
         render();
         
+        
+        //---------------------Save Location in LocalStorage------------------//
+        function saveGameState()
+        {
+            var location= mapLocation.toString();
+            localStorage.setItem("roomNumber", location);
+            gameMessage = "You have saved your room location!"
+            
+            restoreGameState();
+        }
+        
+        function restoreGameState()
+        {
+            var theLocation=localStorage.getItem("roomNumber"); 
+            document.getElementById("output").innerHTML= hogwarts[theLocation];
+        }
+        
+        //----------------------------------------------------------------------//
+	
+        
         function clickHandler()
         {
             playGame();
@@ -100,10 +121,6 @@
             playersInput = input.value;
             playersInput = playersInput.toLowerCase();
             
-            // Call restoreGameState
-            
-            // or call saveGameState
-
             // Reset these variables from the previous turn
             gameMessage = "";
             action = "";
@@ -132,8 +149,19 @@
             
             // Choose the correct action, checks boundaries of the map
             // Takes item if there is one at the location the player is at
+            // Uses item is there is one at that location
+            // Saves game location
+            // Restores game location
             switch(action)
             {
+                case "save":
+                    saveGameState();
+                    break;
+                    
+                case "restore":
+                    restoreGameState();
+                    break;
+
                 case "north":
                     if (mapLocation >= 3)
                     {
@@ -185,10 +213,11 @@
                 case "use":
                     useItem();
                     break;
-
+                    
                 default:
                     gameMessage = "I don't understand that.";
             }
+
 
             // Render the game
             render();
