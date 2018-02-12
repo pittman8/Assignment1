@@ -26,4 +26,6 @@ HOW TO LOSE:
 - Go to Dumbledore's office and use the wand. He is now dead.
 - You lose because the wand leaves the game and cannot be used to get the sword any longer.
 
+Typing "save" into the action input box saves the room the player is in, and typing "restore" into the action input box puts the player back into the room they saved themselves in.
+
 I utilized the template literal feature from Ecmascript 6 in using string interpolation when initializing the game message.
