@@ -9,7 +9,7 @@
     <br />
     <input id="input" type="text" placeholder="Enter your action...">
     <button>Enter</button>
-    <br /> <br />    
+    <br /> <br />
 </div>
     
     <script>        
@@ -56,10 +56,6 @@
         var actions = { toDo: "<u>north, east, south, west, take, use, save, restore.</u>" }
         var gameMessage = `<br>Welcome to ${school.name}! Try any of these actions throughout the game: ${actions.toDo}`;
         
-        //var gameMessage = "<br>Welcome to Hogwarts! "
-        //gameMessage += "Try any of these actions throughout the game: " 
-        //gameMessage += "<u>north, east, south, west, take, use, save, restore.</u>";";"
-        
         // Create an array of actions the game understands
         // Create a variable to store the current action
         var actionsIKnow = ["north", "east", "south", "west", "take", "use", "save", "restore"];
@@ -91,24 +87,40 @@
         
         
         //---------------------Save Location in LocalStorage------------------//
+        
+        // Check browser compatibility
+        function init()
+        {
+            if(typeof(Storage)!=="undefined"){
+                
+                restoreGameState();   
+            }
+            else
+            {
+                // old browser	
+            }
+        }
+        
+        // Save the player's current location
         function saveGameState()
         {
-            var location= mapLocation.toString();
+            var location= mapLocation.toString(); // map index number
             localStorage.setItem("roomNumber", location);
-            gameMessage = "You have saved your room location!"
+            gameMessage = "You have saved your room location!";
             
             restoreGameState();
         }
         
+        // Restore the player to be in the room they saved the game in
         function restoreGameState()
         {
             var theLocation=localStorage.getItem("roomNumber"); 
-            document.getElementById("output").innerHTML= hogwarts[theLocation];
+            mapLocation = theLocation; // update room location
         }
         
         //----------------------------------------------------------------------//
 	
-        
+        // Activates playGame after user enters input into the action input box
         function clickHandler()
         {
             playGame();
@@ -127,7 +139,7 @@
             // Figure out the player's action
             for(i = 0; i < actionsIKnow.length; i++)
             {
-                if(playersInput.indexOf(actionsIKnow[i]) !== -1)
+                if(playersInput.indexOf(actionsIKnow[i]) !== -1) // action player asks to do is exists in the game
                 {
                     action = actionsIKnow[i];
                     console.log("player's action: " + action);
@@ -139,7 +151,7 @@
             // Find item player is interacting with
             for (i = 0; i < itemsIKnow.length; i++)
             {
-                if(playersInput.indexOf(itemsIKnow[i]) !== -1)
+                if(playersInput.indexOf(itemsIKnow[i]) !== -1) // item player asks about is exists in the game
                 {
                     item = itemsIKnow[i];
                     console.log("player's item: " + item);
@@ -147,10 +159,10 @@
             }
             
             // Choose the correct action, checks boundaries of the map
-            // Takes item if there is one at the location the player is at
-            // Uses item is there is one at that location
-            // Saves game location
-            // Restores game location
+            // Can save game location
+            // Can restore game location
+            // Can take item if there is one at the location the player is at
+            // Can use item is there is one at that location
             switch(action)
             {
                 case "save":
@@ -329,6 +341,7 @@
             }   
         }
         
+        // Displays the game in the web browser
         function render()
         {
             // Render the location
@@ -359,9 +372,7 @@
                 output.innerHTML += "<br>You are carrying: " + "<u>" + heldItems.join(", ") + "</u>" ;
             }
             
-            
             // Clear the input field
-            input.value = "";
-               
+            input.value = "";   
         }
-</script>
+    </script>
